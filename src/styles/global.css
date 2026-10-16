@@ -1,11 +1,82 @@
 @import 'tailwindcss';
+@import './primitives.css';
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Alias semánticos: lo único que usan los componentes (bg-secondary, text-ink, border-border-soft...). */
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
 
-html {
-  scroll-behavior: smooth;
+  --color-primary: var(--color-navy-900);
+  --color-primary-soft: var(--color-navy-700);
+  --color-secondary: var(--color-navy-950);
+  --color-accent: var(--color-blue-500);
+  --color-accent-strong: var(--color-blue-600);
+  --color-accent-soft: var(--color-blue-300);
+  --color-surface: var(--color-blue-50);
+  --color-surface-strong: var(--color-blue-100);
+  --color-border-soft: var(--color-blue-200);
+  --color-ink: var(--color-navy-900);
+  --color-ink-muted: var(--color-gray-500);
+  --color-ink-body: var(--color-gray-600);
+  --color-canvas: var(--color-white);
+  --color-on-dark: var(--color-white);
+  --color-success: var(--color-green-500);
 }
-body {
-  @apply bg-white text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-200;
-  font-family: 'Inter', system-ui, sans-serif;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-canvas font-sans text-ink-body antialiased selection:bg-accent-soft;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply text-ink;
+  }
+}
+
+/* Halo azul en la esquina superior derecha de las tarjetas */
+@utility bg-halo {
+  background-image: radial-gradient(
+    circle at 100% 0%,
+    color-mix(in oklab, var(--color-accent-soft) 70%, transparent),
+    transparent 45%
+  );
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition duration-300;
+}
+@utility btn-accent {
+  @apply btn bg-accent text-on-dark hover:scale-105 hover:bg-accent-strong;
+}
+@utility btn-outline-light {
+  @apply btn border border-on-dark/70 text-on-dark hover:border-accent hover:bg-accent;
+}
+
+@utility card {
+  @apply bg-halo rounded-2xl bg-canvas p-8 shadow-xl shadow-primary/5 ring-1 ring-border-soft transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/15;
+}
+
+/* Aparece al entrar en pantalla; navegadores sin soporte simplemente lo muestran */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }

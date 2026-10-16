@@ -7,8 +7,8 @@ Sitio personal hecho con Astro y Tailwind CSS. HTML estático, sin JavaScript de
 ## Correr local
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 El contenido (experiencia, proyectos, habilidades) está en `src/data/content.ts`: para actualizar el portafolio solo se edita ese archivo.

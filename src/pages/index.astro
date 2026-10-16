@@ -1,110 +1,220 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
 import Section from '../components/Section.astro'
-import ThemeToggle from '../components/ThemeToggle.astro'
-import { education, experience, profile, projects, skills } from '../data/content'
+import Icon from '../components/Icon.astro'
+import { education, experience, highlights, profile, projects, skills } from '../data/content'
 
-const nav = [
-  ['#proyectos', 'Proyectos'],
-  ['#experiencia', 'Experiencia'],
-  ['#educacion', 'Educación'],
-  ['#contacto', 'Contacto'],
+const stats = [
+  ['2+', 'años en producción'],
+  [String(projects.length), 'proyectos publicados'],
+  [String(skills.length), 'tecnologías'],
 ]
+// Líneas del "editor" del hero: [clave, valor]
+const code = [
+  ['rol', `'${profile.role}'`],
+  ['stack', `['React', 'TypeScript', 'Astro']`],
+  ['ubicacion', `'${profile.location}'`],
+  ['disponible', 'true'],
+]
+const external = { target: '_blank', rel: 'noreferrer' }
 ---
 
 <Layout title={`${profile.name} · ${profile.role}`} description={profile.summary}>
-  <header class="sticky top-0 z-10 border-b border-slate-200/70 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
-    <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-      <a href="#" class="font-bold">NA</a>
-      <nav class="flex items-center gap-4 text-sm">
-        {nav.map(([href, label]) => <a href={href} class="hidden hover:text-indigo-600 sm:inline">{label}</a>)}
-        <ThemeToggle />
-      </nav>
-    </div>
-  </header>
+  <Header />
 
-  <main class="mx-auto max-w-4xl px-4">
-    <section class="py-20">
-      <p class="text-sm text-slate-500">{profile.location}</p>
-      <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
-        {profile.name}
+  <main>
+    <!-- Hero -->
+    <section class="bg-secondary px-6 pt-36 pb-56 text-center text-on-dark sm:pt-44">
+      <p class="inline-flex items-center gap-2 rounded-full bg-on-dark/10 px-4 py-1.5 text-sm font-medium ring-1 ring-on-dark/15">
+        <span class="size-2 animate-pulse rounded-full bg-success"></span>
+        Disponible para trabajar · {profile.location}
+      </p>
+      <h1 class="mx-auto mt-8 max-w-4xl text-4xl leading-tight font-extrabold tracking-tight text-on-dark sm:text-6xl">
+        Construyo interfaces <span class="text-accent">claras</span> que la gente disfruta usar.
       </h1>
-      <p class="mt-2 text-xl text-indigo-600 dark:text-indigo-400">{profile.role}</p>
-      <p class="mt-6 max-w-2xl leading-relaxed">{profile.summary}</p>
-      <div class="mt-8 flex flex-wrap gap-3 text-sm">
-        <a href={`mailto:${profile.email}`} class="rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Escríbeme</a>
-        <a href={profile.linkedin} target="_blank" rel="noreferrer" class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">LinkedIn</a>
-        <a href={profile.github} target="_blank" rel="noreferrer" class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">GitHub</a>
+      <p class="mx-auto mt-6 max-w-2xl text-lg font-medium text-on-dark/80 sm:text-xl">
+        Soy {profile.name}, {profile.role.toLowerCase()} con React y TypeScript. Llevo dos años en producción en un SaaS legal.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="#proyectos" class="btn-accent">Ver proyectos <Icon name="arrowRight" class="size-5" /></a>
+        <a href={profile.github} {...external} class="btn-outline-light"><Icon name="github" class="size-5" /> GitHub</a>
+        <a href={profile.linkedin} {...external} class="btn-outline-light"><Icon name="linkedin" class="size-5" /> LinkedIn</a>
       </div>
-      <ul class="mt-10 flex flex-wrap gap-2" aria-label="Habilidades">
-        {skills.map((s) => <li class="rounded-full bg-slate-100 px-3 py-1 text-xs dark:bg-slate-800">{s}</li>)}
-      </ul>
     </section>
 
-    <Section id="proyectos" title="Proyectos">
-      <div class="grid gap-6 md:grid-cols-2">
+    <!-- Mockup tipo editor que se monta sobre la sección clara -->
+    <div class="bg-gradient-to-b from-surface to-surface-strong px-6 pb-24">
+      <div class="mx-auto -mt-40 max-w-3xl overflow-hidden rounded-2xl bg-primary text-left shadow-2xl shadow-primary/30 ring-8 ring-on-dark/60">
+        <div class="flex items-center gap-2 border-b border-on-dark/10 px-5 py-3">
+          <span class="size-3 rounded-full bg-accent-soft"></span>
+          <span class="size-3 rounded-full bg-accent"></span>
+          <span class="size-3 rounded-full bg-success"></span>
+          <span class="ml-3 font-mono text-xs text-on-dark/50">nicolas.ts</span>
+        </div>
+        <code class="block overflow-x-auto p-6 font-mono text-sm leading-7 whitespace-pre text-on-dark/70 sm:text-base">
+          <span class="block"><span class="text-accent">const</span> <span class="text-on-dark">nicolas</span> = {'{'}</span>
+          {
+            code.map(([k, v]) => (
+              <span class="block pl-6">
+                <span class="text-accent-soft">{k}</span>: <span class="text-success">{v}</span>,
+              </span>
+            ))
+          }
+          <span class="block">{'}'}</span>
+        </code>
+      </div>
+
+      <dl class="mx-auto mt-14 grid max-w-3xl grid-cols-3 gap-6 text-center">
         {
-          projects.map((p) => (
-            <article class="flex flex-col rounded-xl border border-slate-200 p-5 dark:border-slate-800">
-              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{p.name}</h3>
-              <p class="mt-2 flex-1 text-sm leading-relaxed">{p.description}</p>
-              <ul class="mt-4 flex flex-wrap gap-1.5">
-                {p.stack.map((t) => <li class="rounded bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">{t}</li>)}
-              </ul>
-              <div class="mt-4 flex gap-4 text-sm font-medium">
-                <a href={p.demo} target="_blank" rel="noreferrer" class="text-indigo-600 hover:underline dark:text-indigo-400">Demo →</a>
-                <a href={p.repo} target="_blank" rel="noreferrer" class="hover:underline">Código</a>
-              </div>
-            </article>
+          stats.map(([n, label]) => (
+            <div>
+              <dt class="sr-only">{label}</dt>
+              <dd class="text-4xl font-extrabold text-primary sm:text-5xl">{n}</dd>
+              <dd class="mt-1 text-sm text-ink-muted">{label}</dd>
+            </div>
           ))
         }
+      </dl>
+      <div class="mt-12 text-center">
+        <a href="#sobre-mi" class="btn-accent">Conoce mi trabajo <Icon name="arrowDown" class="size-5" /></a>
       </div>
-    </Section>
+    </div>
 
-    <Section id="experiencia" title="Experiencia">
-      <ol class="space-y-8 border-l border-slate-200 pl-6 dark:border-slate-800">
+    <!-- Sobre mí -->
+    <section id="sobre-mi" class="reveal mx-auto grid max-w-6xl scroll-mt-24 items-center gap-14 px-6 py-24 lg:grid-cols-2">
+      <div class="rounded-3xl bg-surface p-8 ring-4 ring-border-soft">
+        <p class="flex items-center gap-2 font-semibold text-primary"><Icon name="code" class="size-5 text-accent" /> Mi stack</p>
+        <ul class="mt-6 flex flex-wrap gap-2" aria-label="Habilidades">
+          {skills.map((s) => <li class="rounded-lg bg-canvas px-3 py-1.5 text-sm font-medium text-primary shadow-sm ring-1 ring-border-soft">{s}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-3xl leading-tight font-bold sm:text-4xl">
+          Frontend con criterio de producto: <span class="text-accent">claro, rápido y mantenible</span>
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed">{profile.summary}</p>
+        <ul class="mt-8 space-y-5">
+          {
+            highlights.map((h) => (
+              <li class="flex items-center gap-4 text-lg font-semibold text-primary italic">
+                <span class="grid size-11 shrink-0 place-items-center rounded-full bg-surface-strong text-accent">
+                  <Icon name={h.icon} />
+                </span>
+                {h.text}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Proyectos sobre banda en degradado -->
+    <div class="relative isolate">
+      <div class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-b from-accent-soft to-primary-soft"></div>
+      <Section id="proyectos" title="Proyectos que puedes abrir y probar" subtitle="Demos en vivo y código abierto: cómo organizo componentes, estado, datos y tests.">
+        <div class="grid gap-8 md:grid-cols-3">
+          {
+            projects.map((p) => (
+              <article class="card flex flex-col">
+                <span class="grid size-14 place-items-center rounded-2xl bg-surface-strong text-accent">
+                  <Icon name={p.icon} class="size-7" />
+                </span>
+                <h3 class="mt-6 text-xl font-bold">{p.name}</h3>
+                <p class="mt-3 flex-1 text-sm leading-relaxed">{p.description}</p>
+                <ul class="mt-5 flex flex-wrap gap-1.5">
+                  {p.stack.map((t) => (
+                    <li class="rounded-md bg-surface px-2 py-0.5 text-xs font-medium text-primary ring-1 ring-border-soft">{t}</li>
+                  ))}
+                </ul>
+                <div class="mt-6 flex gap-3 text-sm">
+                  <a href={p.demo} {...external} class="btn-accent px-4 py-2">
+                    Demo <Icon name="external" class="size-4" />
+                  </a>
+                  <a href={p.repo} {...external} class="btn px-4 py-2 text-primary ring-1 ring-border-soft hover:bg-surface">
+                    <Icon name="github" class="size-4" /> Código
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </Section>
+    </div>
+
+    <Section id="experiencia" title="Experiencia" subtitle="Dónde he construido producto real, con usuarios reales.">
+      <ol class="mx-auto max-w-4xl space-y-8">
         {
           experience.map((job) => (
-            <li class="relative">
-              <span class="absolute top-1.5 -left-[29px] size-2.5 rounded-full bg-indigo-600" />
-              <h3 class="font-semibold text-slate-900 dark:text-white">
-                {job.role} · {job.company}
-              </h3>
-              <p class="text-sm text-slate-500">{job.period}</p>
-              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm">
-                {job.points.map((pt) => <li>{pt}</li>)}
-              </ul>
+            <li class="card flex flex-col gap-6 sm:flex-row">
+              <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary text-on-dark">
+                <Icon name="briefcase" class="size-7" />
+              </span>
+              <div class="flex-1">
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 class="text-xl font-bold">
+                    {job.role} <span class="text-accent">· {job.company}</span>
+                  </h3>
+                  <span class="text-sm font-medium text-ink-muted">{job.period}</span>
+                </div>
+                <ul class="mt-4 space-y-2">
+                  {job.points.map((pt) => (
+                    <li class="flex gap-3">
+                      <Icon name="arrowRight" class="mt-1 size-4 shrink-0 text-accent" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </li>
           ))
         }
       </ol>
     </Section>
 
-    <Section id="educacion" title="Educación">
-      <ul class="space-y-4">
-        {
-          education.map((e) => (
-            <li class="flex flex-wrap justify-between gap-2">
-              <div>
-                <p class="font-medium text-slate-900 dark:text-white">{e.title}</p>
-                <p class="text-sm text-slate-500">{e.place}</p>
-              </div>
-              <span class="text-sm text-slate-500">{e.year}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </Section>
+    <div class="bg-surface">
+      <Section id="educacion" title="Educación" subtitle="Formación técnica y profesional, siempre en paralelo al trabajo.">
+        <ul class="grid gap-8 md:grid-cols-3">
+          {
+            education.map((e) => (
+              <li class="card">
+                <span class="grid size-12 place-items-center rounded-full bg-surface-strong text-accent">
+                  <Icon name="cap" />
+                </span>
+                <p class="mt-5 text-lg font-bold text-ink">{e.title}</p>
+                <p class="mt-1 text-sm">{e.place}</p>
+                <p class="mt-4 text-sm font-semibold text-accent">{e.year}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </Section>
+    </div>
 
-    <Section id="contacto" title="Contacto">
-      <p class="max-w-xl">
-        Estoy buscando trabajo como frontend developer, remoto o híbrido en Bogotá. Si tienes una vacante o un proyecto,
-        escríbeme a <a href={`mailto:${profile.email}`} class="text-indigo-600 underline dark:text-indigo-400">{profile.email}</a>.
+    <!-- CTA -->
+    <section id="contacto" class="bg-secondary scroll-mt-24 px-6 py-24 text-center text-on-dark">
+      <h2 class="reveal mx-auto max-w-3xl text-3xl leading-tight font-extrabold text-on-dark sm:text-5xl">
+        ¿Tienes una vacante o un proyecto? <span class="text-accent">Hablemos.</span>
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-lg text-on-dark/80">
+        Busco trabajo como frontend developer, remoto o híbrido en Bogotá.
       </p>
-    </Section>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href={`mailto:${profile.email}`} class="btn-accent"><Icon name="mail" class="size-5" /> {profile.email}</a>
+        <a href={profile.linkedin} {...external} class="btn-outline-light"><Icon name="linkedin" class="size-5" /> LinkedIn</a>
+      </div>
+    </section>
   </main>
 
-  <footer class="border-t border-slate-200 py-8 text-center text-xs text-slate-500 dark:border-slate-800">
-    Hecho con Astro y Tailwind · {new Date().getFullYear()}
+  <footer class="border-t border-on-dark/10 bg-secondary px-6 py-10 text-on-dark/60">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 text-sm">
+      <span class="text-lg font-extrabold text-on-dark">Nicolas<span class="text-accent">.</span></span>
+      <span>© {new Date().getFullYear()} {profile.name} · Hecho con Astro y Tailwind</span>
+      <div class="flex gap-4">
+        <a href={profile.github} {...external} aria-label="GitHub" class="transition hover:text-accent"><Icon name="github" /></a>
+        <a href={profile.linkedin} {...external} aria-label="LinkedIn" class="transition hover:text-accent"><Icon name="linkedin" /></a>
+        <a href={`mailto:${profile.email}`} aria-label="Correo" class="transition hover:text-accent"><Icon name="mail" /></a>
+      </div>
+    </div>
   </footer>
 </Layout>

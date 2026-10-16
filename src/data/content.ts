@@ -1,3 +1,5 @@
+import type { IconName } from '../components/Icon.astro'
+
 export const profile = {
   name: 'Nicolas Ariza',
   role: 'Frontend Developer',
@@ -55,6 +57,7 @@ export const education = [
 export const projects = [
   {
     name: 'Dashboard SaaS',
+    icon: 'chart' as IconName,
     description:
       'Panel de gestión de casos con KPIs, gráfico, tabla con filtros, orden y paginación, y modo oscuro persistente.',
     stack: ['React', 'TypeScript', 'Redux Toolkit', 'Recharts', 'Tailwind', 'Vitest'],
@@ -63,6 +66,7 @@ export const projects = [
   },
   {
     name: 'Countries Explorer',
+    icon: 'globe' as IconName,
     description:
       'Buscador de países sobre la API de REST Countries con caché, filtros en la URL, paginación y vista de detalle.',
     stack: ['React', 'TypeScript', 'TanStack Query', 'React Router', 'Tailwind', 'Vitest'],
@@ -71,10 +75,17 @@ export const projects = [
   },
   {
     name: 'UI Kit',
+    icon: 'grid' as IconName,
     description:
       'Librería de componentes accesibles organizada con Atomic Design, documentada en Storybook y con tests.',
     stack: ['React', 'TypeScript', 'Storybook', 'Tailwind', 'Testing Library'],
     repo: 'https://github.com/ariza823/ui-kit',
     demo: 'https://ariza823.github.io/ui-kit/',
   },
+]
+
+export const highlights: { icon: IconName; text: string }[] = [
+  { icon: 'layers', text: 'Componentes reutilizables con Atomic Design' },
+  { icon: 'zap', text: 'Interfaces rápidas, accesibles y con tests' },
+  { icon: 'users', text: 'Trabajo de la mano con backend y producto' },
 ]

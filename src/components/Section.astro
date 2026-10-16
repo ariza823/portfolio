@@ -2,11 +2,15 @@
 interface Props {
   id: string
   title: string
+  subtitle?: string
 }
-const { id, title } = Astro.props
+const { id, title, subtitle } = Astro.props
 ---
 
-<section id={id} class="scroll-mt-20 py-12">
-  <h2 class="mb-6 text-sm font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">{title}</h2>
+<section id={id} class="reveal mx-auto max-w-6xl scroll-mt-24 px-6 py-24">
+  <header class="mx-auto mb-14 max-w-2xl text-center">
+    <h2 class="text-3xl leading-tight font-bold sm:text-4xl">{title}</h2>
+    {subtitle && <p class="mt-4 text-lg">{subtitle}</p>}
+  </header>
   <slot />
 </section>

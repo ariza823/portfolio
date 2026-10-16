@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { token } from '../lib/tokens'
 
 interface Props {
   title: string
@@ -15,18 +16,14 @@ const base = import.meta.env.BASE_URL
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content={token('navy-950')} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`.replace('//', '/')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <title>{title}</title>
-    <!-- Se ejecuta antes de pintar para evitar el "flash" de tema claro -->
-    <script is:inline>
-      try {
-        const saved = localStorage.getItem('theme')
-        const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-        document.documentElement.classList.toggle('dark', dark)
-      } catch {}
-    </script>
   </head>
   <body>
     <slot />

@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro'
+import { profile } from '../data/content'
+
+const nav = [
+  ['#sobre-mi', 'Sobre mí'],
+  ['#proyectos', 'Proyectos'],
+  ['#experiencia', 'Experiencia'],
+  ['#educacion', 'Educación'],
+]
+---
+
+<!-- Transparente sobre el hero; al bajar 50px toma fondo (data-scrolled) -->
+<header
+  id="navbar"
+  class="fixed inset-x-0 top-0 z-50 transition-colors duration-500 data-scrolled:bg-secondary/95 data-scrolled:shadow-lg data-scrolled:backdrop-blur"
+>
+  <nav class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 text-on-dark">
+    <a href="#" class="text-2xl font-extrabold tracking-tight">
+      Nicolas<span class="text-accent">.</span>
+    </a>
+    <ul class="hidden items-center gap-8 font-semibold lg:flex">
+      {nav.map(([href, label]) => <li><a href={href} class="transition hover:text-accent-soft">{label}</a></li>)}
+    </ul>
+    <a href={`mailto:${profile.email}`} class="btn-outline-light py-2 text-sm">
+      <Icon name="mail" class="size-4" /> Hablemos
+    </a>
+  </nav>
+</header>
+
+<script>
+  const navbar = document.getElementById('navbar')!
+  const update = () => navbar.toggleAttribute('data-scrolled', window.scrollY > 50)
+  addEventListener('scroll', update, { passive: true })
+  update()
+</script>
